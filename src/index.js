@@ -15,7 +15,7 @@ const db = new Low(adapter, defaultData);
 
 async function initDB() {
   await db.read();
-  
+  db.data ||= defaultData; // Initialize missing collections with defaultData
 }
 
 function auth(role) {
