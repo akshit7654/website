@@ -33,7 +33,7 @@ function auth(role) {
 }
 
 app.post('/register', async (req, res) => {
-  const { username, password, role } = req.body;
+  const { username, password } = req.body;
   if (!username || !password) return res.status(400).json({ error: 'Missing fields' });
   await initDB();
   if (db.data.users.find(u => u.username === username)) {
