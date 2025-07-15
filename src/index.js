@@ -80,7 +80,11 @@ app.put('/posts/:id', auth('author'), async (req, res) => {
   if (post.authorId !== req.user.id && req.user.role !== 'admin' && req.user.role !== 'editor') {
     return res.status(403).json({ error: 'Forbidden' });
   }
-  Object.assign(post, req.body);
+  const allowedFields = ['title', 'content', 'categories', 'tags'];
+  const updates = Object.fromEntries(
+    Object.entries(req.body).filter(([key]) => allowedFields.includes(key))
+  );
+  Object.assign(post, updates);
   await db.write();
   res.json(post);
 });
